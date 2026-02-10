@@ -1,65 +1,125 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState } from "react";
+import { TopBar, Footer, Sidebar } from "@/common";
+import { StatCard, QuickActions, TodaySchedule, CurrentEnrollment, StudentStatistics, EnrollmentAnalytics } from "@/components/ui";
+import { Users, Users2, ClipboardList, BookMarked } from "lucide-react";
 
 export default function Home() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Dummy user data
+  const user = {
+    name: "Dr. Kunal Singh",
+    email: "kunal.singh@university.edu",
+    role: "Senior Lecturer"
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header */}
+      <TopBar 
+        user={user} 
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
+      />
+
+      {/* Sidebar */}
+      <Sidebar 
+        isOpen={sidebarOpen} 
+        onToggle={() => setSidebarOpen(!sidebarOpen)} 
+      />
+
+      {/* Main Content */}
+      <main className="flex-1 pt-16 lg:pl-64 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {/* Page Header */}
+          <div className="mb-6">
+            <h1 className="heading-lg mb-2">Welcome back, {user.name}!</h1>
+            <p className="body-text">Here's your academic overview.</p>
+          </div>
+
+          {/* Statistics Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <StatCard
+              title="Total Students"
+              value="12,347"
+              icon={<Users />}
+              iconColor="blue"
+              change={{
+                text: "+5% from last year",
+                variant: "positive"
+              }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            
+            <StatCard
+              title="Total Faculty Members"
+              value="789"
+              icon={<Users2 />}
+              iconColor="green"
+              change={{
+                text: "+3% from last year",
+                variant: "positive"
+              }}
+            />
+            
+            <StatCard
+              title="Pending Tasks"
+              value="27"
+              icon={<ClipboardList />}
+              iconColor="orange"
+              change={{
+                text: "",
+                variant: "warning"
+              }}
+            />
+            
+            <StatCard
+              title="Active Courses"
+              value="1,247"
+              icon={<BookMarked />}
+              iconColor="purple"
+              change={{
+                text: "Current semester",
+                variant: "neutral"
+              }}
+            />
+          </div>
+
+          {/* Main Grid - Quick Actions, Today's Schedule, and Current Enrollment */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            {/* Quick Actions */}
+            <div>
+              <QuickActions />
+            </div>
+
+            {/* Today's Schedule */}
+            <div>
+              <TodaySchedule />
+            </div>
+
+            {/* Current Enrollment */}
+            <div>
+              <CurrentEnrollment />
+            </div>
+          </div>
+
+          {/* Student Statistics and Enrollment Analytics */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Student Statistics */}
+            <div>
+              <StudentStatistics />
+            </div>
+
+            {/* Enrollment Analytics */}
+            <div>
+              <EnrollmentAnalytics />
+            </div>
+          </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

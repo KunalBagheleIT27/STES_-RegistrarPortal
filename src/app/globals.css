@@ -1,26 +1,149 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Custom scrollbar styles */
+@utility scrollbar-thin {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
   }
 }
 
+/* Hide scrollbar while keeping scroll functionality */
+@utility scrollbar-hide {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Slide down animation for nested menu items */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 500px;
+  }
+}
+
+@utility animate-slideDown {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+/* Base styles */
+@theme {
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: theme(colors.gray.50);
+  color: theme(colors.gray.900);
+  font-family: var(--font-family-sans);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  font-family: var(--font-family-sans);
+}
+
+/* Typography System - Consistent font sizes */
+@utility heading-lg {
+  font-size: theme(fontSize.lg);
+  font-weight: 700;
+  color: theme(colors.gray.900);
+}
+
+@utility heading-md {
+  font-size: theme(fontSize.base);
+  font-weight: 600;
+  color: theme(colors.gray.900);
+}
+
+@utility heading-sm {
+  font-size: theme(fontSize.sm);
+  font-weight: 600;
+  color: theme(colors.gray.900);
+}
+
+@utility body-text {
+  font-size: theme(fontSize.sm);
+  color: theme(colors.gray.600);
+}
+
+@utility caption-text {
+  font-size: theme(fontSize.xs);
+  color: theme(colors.gray.600);
+}
+
+@utility label-text {
+  font-size: theme(fontSize.xs);
+  font-weight: 600;
+  color: theme(colors.gray.700);
+}
+
+@utility muted-text {
+  font-size: theme(fontSize.xs);
+  color: theme(colors.gray.500);
+}
+
+@utility card {
+  background-color: white;
+  border-radius: theme(borderRadius.xl);
+  border: 1px solid theme(colors.gray.200);
+  box-shadow: theme(boxShadow.sm);
+}
+
+@utility btn-primary {
+  background-color: #026892;
+  color: white;
+  padding: theme(spacing.2) theme(spacing.4);
+  border-radius: theme(borderRadius.lg);
+  font-weight: 500;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: #025275;
+  }
+  
+  &:active {
+    scale: 0.95;
+  }
+}
+
+@utility btn-secondary {
+  background-color: white;
+  color: theme(colors.gray.700);
+  padding: theme(spacing.2) theme(spacing.4);
+  border-radius: theme(borderRadius.lg);
+  font-weight: 500;
+  border: 1px solid theme(colors.gray.300);
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: theme(colors.gray.50);
+  }
+  
+  &:active {
+    scale: 0.95;
+  }
 }
